@@ -50,6 +50,10 @@ class Row {
 
 class Grid {
   /**
+   * this attribute represents the rows of a grid.
+   */
+  rows;
+  /**
    * this method returns a grid with x rows and y columns.
    */
   constructor(row, column) {}
@@ -184,6 +188,35 @@ test("should return false if cell doesnt exist", () => {
   return equals(false, grid.hasValue(-1, -1));
 });
 
+test("an error should be thrown if provided row or column is not positive", () => {
+  try {
+    new Grid(-2, 5);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+test("an error should be thrown if provided row or column is not positive", () => {
+  try {
+    new Grid(0, 0);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+
+test("should return a grid with provided row and column", () => {
+  const grid = new Grid(3, 3);
+  if (grid.rows.length !== 3) {
+    return false;
+  }
+  for (const row of grid.rows) {
+    if (row.length !== 3) {
+      return false;
+    }
+  }
+  return true;
+});
 // test("kindersicherung 1", () => { throw "hupsi" })
 // test("kindersicherung 2", () => undefined)
 // test("test ohne test fn")

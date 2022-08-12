@@ -57,12 +57,17 @@ class Grid {
   /**
    * this method returns the value of a cell based on provided row and column location. it throws an error when the cell doesnt exist.
    */
-  getCell(row, column) {}
+  getValue(row, column) {}
 
   /**
    * this method returns a boolean. true if a cell at provided location exists, else false.
    */
-  hasCell(row, column) {}
+  hasValue(row, column) {}
+
+  /**
+   * this method sets value of cell at provided location.
+   */
+  setValue(row, column, value) {}
 }
 // controller
 
@@ -143,24 +148,40 @@ test("should return the first element if you provide 0", () => {
 
 // Grid tests
 
-test("should return true if cell exists", () => {
-  const grid = new Grid(2, 3);
-  return equals(true, grid.hasCell(1, 2));
+test("should return value at provided location", () => {
+  const grid = new Grid(3, 4);
+  grid.setValue(1, 2, 66);
+  return equals(66, grid.getValue(1, 2));
+});
+
+test("an error should be thrown if cell doesnt exist", () => {
+  const grid = new Grid(3, 4);
+  try {
+    grid.getValue(-1, -1);
+  } catch (error) {
+    return true;
+  }
+  return false;
 });
 
 test("should return true if cell exists", () => {
   const grid = new Grid(2, 3);
-  return equals(true, grid.hasCell(0, 0));
+  return equals(true, grid.hasValue(1, 2));
+});
+
+test("should return true if cell exists", () => {
+  const grid = new Grid(2, 3);
+  return equals(true, grid.hasValue(0, 0));
 });
 
 test("should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
-  return equals(false, grid.hasCell(4, 5));
+  return equals(false, grid.hasValue(4, 5));
 });
 
 test("should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
-  return equals(false, grid.hasCell(-1, -1));
+  return equals(false, grid.hasValue(-1, -1));
 });
 
 // test("kindersicherung 1", () => { throw "hupsi" })

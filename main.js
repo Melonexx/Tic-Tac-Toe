@@ -47,6 +47,29 @@ class Row {
     return this.values[columnIndex];
   }
 }
+
+class Grid {
+  /**
+   * this method returns a grid with x rows and y columns.
+   */
+  constructor(row, column){
+
+  }
+
+  /**
+   * this method returns the value of a cell based on provided row and column location. it throws an error when the cell doesnt exist.
+   */
+  getCell(row, column){
+
+  }
+
+/** 
+ * this method returns a boolean. true if a cell at provided location exists, else false.
+*/
+  hasCell(row, column){
+
+  }
+}
 // controller
 
 // util
@@ -123,6 +146,17 @@ test("should return the first element if you provide 0", () => {
   const row = new Row(1, ["x", "y", "z"]);
   return equals(row.getValue(0), "x");
 });
+
+// Grid tests
+
+
+
+
+
+
+
+
+
 
 // test("kindersicherung 1", () => { throw "hupsi" })
 // test("kindersicherung 2", () => undefined)

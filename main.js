@@ -46,20 +46,20 @@ class Row {
     return this.values[columnIndex];
   }
   /**
-   * this method set the value of the specified column. throws an error if provided column index is negative
+   * this method set the value of the specified column. throws an error if cell doesnt exist.
    */
   setValue(columnIndex, value) {
-    if (columnIndex < 0)
-      throw new Error(`provided index :${columnIndex} has to be positive`);
+    if (!this.hasCell(columnIndex))
+      throw new Error(`no cell at provided index: ${columnIndex}`);
     this.values[columnIndex] = value;
   }
   /**
-   * this method returns true if column at provided index has a value, else false. throws an error if provided column index is negative.
+   * this method returns true if column at provided index has a value, else false. throws an error if cell doesnt exist.
    */
   hasValue(columnIndex) {
-    if (columnIndex < 0)
-      throw new Error(`provided index: ${columnIndex} has to be positive`);
-    if (this.values[columnIndex] !== undefined) {
+    if (!this.hasCell(columnIndex))
+      throw new Error(`no cell at provided index: ${columnIndex}`);
+    if (columnIndex in this.values) {
       return true;
     }
     return false;
@@ -179,8 +179,8 @@ test("Tested method: getValue. Should return the first element if you provide 0.
 
 test("Tested method: setValue. Should return value at provided column index.", () => {
   const row = new Row(1, ["x", "y", "z"]);
-  row.setValue(3, "w");
-  return equals("w", row.getValue(3));
+  row.setValue(2, "w");
+  return equals("w", row.getValue(2));
 });
 
 test("Tested method: setValue. An error should be thrown when provided column index is negative.", () => {
@@ -227,9 +227,15 @@ test("Tested method: hasValue. Should return true if row has a value at provided
   const row = new Row(1, ["x", "y", "z"]);
   return equals(true, row.hasValue(1));
 });
+
 test("Tested method: hasValue. Should return false if row doesnt have a value at provided column index.", () => {
-  const row = new Row(1, ["x", "y", "z"]);
-  return equals(false, row.hasValue(4));
+  const row = new Row(1, ["x", , "y", "z"]);
+  return equals(false, row.hasValue(1));
+});
+
+test("Tested method: hasValue. Should return true if row has undefined at provided column index.", () => {
+  const row = new Row(1, ["x", undefined, "y", "z"]);
+  return equals(true, row.hasValue(1));
 });
 
 test("Tested method: hasCell. Should return true if cell exists", () => {

@@ -83,22 +83,64 @@ class Grid {
   /**
    * this method returns a grid with x rows and y columns.
    */
-  constructor(row, column) {}
+  constructor(rows, columns) {
+    if (rows <= 0 || columns <= 0)
+      throw new Error(
+        `provided coordinates: [${rows}, ${columns}] are not valid`
+      );
+    this.rows = new Array(rows);
+    for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+      const row = new Row(rowIndex, new Array(columns));
+      this.rows[rowIndex] = row;
+    }
+  }
 
   /**
    * this method returns the value of a cell based on provided row and column location. it throws an error when the cell doesnt exist.
    */
-  getValue(row, column) {}
+  getValue(rowIndex, columnIndex) {
+    if (!this.hasCell(rowIndex, columnIndex))
+      throw new Error(
+        `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
+      );
+    const row = this.rows[rowIndex];
+    return row.getValue(columnIndex);
+  }
 
   /**
    * this method returns a boolean. true if a cell at provided location exists, else false.
    */
-  hasValue(row, column) {}
+  hasValue(rowIndex, columnIndex) {
+    if (!this.hasCell(rowIndex, columnIndex))
+      throw new Error(
+        `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
+      );
+    const row = this.rows[rowIndex];
+    return row.hasValue(columnIndex);
+  }
 
   /**
    * this method sets value of cell at provided location.
    */
-  setValue(row, column, value) {}
+  setValue(rowIndex, columnIndex, value) {
+    if (!this.hasCell(rowIndex, columnIndex))
+      throw new Error(
+        `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
+      );
+    const row = this.rows[rowIndex];
+    return row.setValue(columnIndex, value);
+  }
+
+  /**
+   * this method returns true if a cell exists, else false.
+   */
+  hasCell(rowIndex, columnIndex) {
+    if (this.rows.length > rowIndex && rowIndex >= 0) {
+      const row = this.rows[rowIndex];
+      return row.hasCell(columnIndex);
+    }
+    return false;
+  }
 }
 // controller
 
@@ -273,22 +315,22 @@ test("an error should be thrown if cell doesnt exist", () => {
 
 test("should return true if cell exists", () => {
   const grid = new Grid(2, 3);
-  return equals(true, grid.hasValue(1, 2));
+  return equals(true, grid.hasCell(1, 2));
 });
 
 test("should return true if cell exists", () => {
   const grid = new Grid(2, 3);
-  return equals(true, grid.hasValue(0, 0));
+  return equals(true, grid.hasCell(0, 0));
 });
 
 test("should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
-  return equals(false, grid.hasValue(4, 5));
+  return equals(false, grid.hasCell(4, 5));
 });
 
 test("should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
-  return equals(false, grid.hasValue(-1, -1));
+  return equals(false, grid.hasCell(-1, -1));
 });
 
 test("an error should be thrown if provided row or column is not positive", () => {
@@ -314,7 +356,7 @@ test("should return a grid with provided row and column", () => {
     return false;
   }
   for (const row of grid.rows) {
-    if (row.length !== 3) {
+    if (row.values.length !== 3) {
       return false;
     }
   }

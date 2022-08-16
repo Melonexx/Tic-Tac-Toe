@@ -154,6 +154,7 @@ class TicTacToe {
 
   constructor(playerOne, playerTwo) {
     this.grid = new Grid(3, 3);
+    this.currentPlayer = playerOne;
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
     this.finished = false;
@@ -390,6 +391,25 @@ test("should return a grid with provided row and column", () => {
   }
   return true;
 });
+
+test("an error should be thrown if column index or row index is negative", () => {});
+
+test("an error should not be thrown if column index and row index is positive and cell exists", () => {});
+
+test("a game should not be finished when created", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  return equals(false, ttt.finished);
+});
+
+test("the current player should be playerOne when a new game is created", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  return equals(playerOne, ttt.currentPlayer);
+});
+
 // test("kindersicherung 1", () => { throw "hupsi" })
 // test("kindersicherung 2", () => undefined)
 // test("test ohne test fn")

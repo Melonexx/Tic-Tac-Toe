@@ -142,6 +142,34 @@ class Grid {
     return false;
   }
 }
+
+class TicTacToe {
+  loser;
+  winner;
+  playerOne;
+  playerTwo;
+  currentPlayer;
+  grid;
+  finished;
+
+  constructor(playerOne, playerTwo) {
+    this.grid = new Grid(3, 3);
+    this.playerOne = playerOne;
+    this.playerTwo = playerTwo;
+    this.finished = false;
+  }
+
+  /**
+   * this method evaluates this grid. If a player has won (full column, full row, full diagonale), loser and winner are set and this game is finished, else the next player is drawn.
+   */
+  evaluate() {}
+
+  /**
+   * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value. evaluates the new state.
+   */
+  placeSymbol(rowIndex, columnIndex) {}
+}
+
 // controller
 
 // util

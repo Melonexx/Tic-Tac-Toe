@@ -167,14 +167,79 @@ class TicTacToe {
     let won = false;
     let draw = false;
 
-    // algo
+    if (
+      this.grid.getValue(0, 0) === this.currentPlayer &&
+      this.grid.getValue(0, 1) === this.currentPlayer &&
+      this.grid.getValue(0, 2) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(1, 0) === this.currentPlayer &&
+      this.grid.getValue(1, 1) === this.currentPlayer &&
+      this.grid.getValue(1, 2) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(2, 0) === this.currentPlayer &&
+      this.grid.getValue(2, 1) === this.currentPlayer &&
+      this.grid.getValue(2, 2) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(0, 0) === this.currentPlayer &&
+      this.grid.getValue(1, 0) === this.currentPlayer &&
+      this.grid.getValue(2, 0) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(0, 1) === this.currentPlayer &&
+      this.grid.getValue(1, 1) === this.currentPlayer &&
+      this.grid.getValue(2, 1) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(0, 2) === this.currentPlayer &&
+      this.grid.getValue(1, 2) === this.currentPlayer &&
+      this.grid.getValue(2, 2) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(0, 0) === this.currentPlayer &&
+      this.grid.getValue(1, 1) === this.currentPlayer &&
+      this.grid.getValue(2, 2) === this.currentPlayer
+    ) {
+      won = true;
+    } else if (
+      this.grid.getValue(0, 2) === this.currentPlayer &&
+      this.grid.getValue(1, 1) === this.currentPlayer &&
+      this.grid.getValue(2, 0) === this.currentPlayer
+    ) {
+      won = true;
+    }
+
+    let full = true;
+
+    for (let rowIndex = 0; rowIndex < this.grid.rows.length; rowIndex++) {
+      const row = this.grid.rows[rowIndex];
+      for (let colIndex = 0; colIndex < row.values.length; colIndex++) {
+        full = full && this.grid.hasValue(rowIndex, colIndex);
+        if (!full) break;
+      }
+      if (!full) break;
+    }
+
+    draw = full && !won;
 
     if (draw) {
-      // TODO
+      this.finished = true;
     } else if (won) {
-      // TODO
+      this.winner = this.currentPlayer;
+      this.loser =
+        this.currentPlayer === this.playerOne ? this.playerTwo : this.playerOne;
+      this.finished = true;
     } else {
-      // TODO
+      this.currentPlayer =
+        this.currentPlayer === this.playerOne ? this.playerTwo : this.playerOne;
     }
   }
 
@@ -182,6 +247,8 @@ class TicTacToe {
    * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value. evaluates the new state.
    */
   placeSymbol(rowIndex, columnIndex) {
+    // TODO if finished, throw error
+
     if (this.grid.hasValue(rowIndex, columnIndex)) {
       throw new Error(
         `cell at provided location: [${rowIndex}, ${columnIndex}] already has a value: ${this.grid.getValue(
@@ -468,6 +535,29 @@ test("placeSymbol should place current player at provided location", () => {
   const ttt = new TicTacToe(playerOne, playerTwo);
   ttt.placeSymbol(1, 1);
   return equals(playerOne, ttt.grid.getValue(1, 1));
+});
+
+test("if playerOne has a first full row, playeOne should be set as winner and playerTwo should be set a loser", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.placeSymbol(0, 0);
+  ttt.placeSymbol(1, 0);
+  ttt.placeSymbol(0, 2);
+  ttt.placeSymbol(1, 1);
+  ttt.placeSymbol(0, 1);
+  return equals(ttt.winner, playerOne) && equals(ttt.loser, playerTwo);
+});
+
+test("winner and loser shouldnt be set if game is not finished", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.placeSymbol(0, 0);
+  ttt.placeSymbol(1, 0);
+  ttt.placeSymbol(0, 2);
+  ttt.placeSymbol(1, 1);
+  return equals(ttt.winner, undefined) && equals(ttt.loser, undefined);
 });
 
 // test("kindersicherung 1", () => { throw "hupsi" })

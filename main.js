@@ -108,7 +108,7 @@ class Grid {
   }
 
   /**
-   * this method returns a boolean. true if a cell at provided location exists, else false.
+   * this method returns a boolean. true if a cell at provided location exists, else false.it throws an error, if cell doesnt exist.
    */
   hasValue(rowIndex, columnIndex) {
     if (!this.hasCell(rowIndex, columnIndex))
@@ -168,7 +168,18 @@ class TicTacToe {
   /**
    * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value. evaluates the new state.
    */
-  placeSymbol(rowIndex, columnIndex) {}
+  placeSymbol(rowIndex, columnIndex) {
+    if (this.grid.hasValue(rowIndex, columnIndex)) {
+      throw new Error(
+        `cell at provided location: [${rowIndex}, ${columnIndex}] already has a value: ${this.grid.getValue(
+          rowIndex,
+          columnIndex
+        )} .`
+      );
+    }
+    this.grid.setValue(rowIndex, columnIndex, this.currentPlayer);
+    this.evaluate();
+  }
 }
 
 // controller
@@ -396,6 +407,8 @@ test("an error should be thrown if column index or row index is negative", () =>
 
 test("an error should not be thrown if column index and row index is positive and cell exists", () => {});
 
+//TicTacToe tests
+
 test("a game should not be finished when created", () => {
   const playerOne = new Player("Eileen");
   const playerTwo = new Player("Robsi");
@@ -408,6 +421,40 @@ test("the current player should be playerOne when a new game is created", () => 
   const playerTwo = new Player("Robsi");
   const ttt = new TicTacToe(playerOne, playerTwo);
   return equals(playerOne, ttt.currentPlayer);
+});
+
+test("an error should be thrown if cell at provided location already has a value", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.placeSymbol(1, 1);
+  try {
+    ttt.placeSymbol(1, 1);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+
+test("an error should not be thrown if cell at provided location doesnt has a value", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.placeSymbol(1, 1);
+  try {
+    ttt.placeSymbol(1, 2);
+  } catch (error) {
+    return false;
+  }
+  return true;
+});
+
+test("placeSymbol should place current player at provided location", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.placeSymbol(1, 1);
+  return equals(playerOne, ttt.grid.getValue(1, 1));
 });
 
 // test("kindersicherung 1", () => { throw "hupsi" })

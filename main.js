@@ -161,9 +161,22 @@ class TicTacToe {
   }
 
   /**
-   * this method evaluates this grid. If a player has won (full column, full row, full diagonale), loser and winner are set and this game is finished, else the next player is drawn.
+   * this method evaluates this grid. If a player has won (full column, full row, full diagonale) or the grid is full, loser and winner are set and this game is finished , else the next player is drawn.
    */
-  evaluate() {}
+  evaluate() {
+    let won = false;
+    let draw = false;
+
+    // algo
+
+    if (draw) {
+      // TODO
+    } else if (won) {
+      // TODO
+    } else {
+      // TODO
+    }
+  }
 
   /**
    * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value. evaluates the new state.

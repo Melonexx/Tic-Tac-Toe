@@ -469,7 +469,12 @@ test("Tested method: hasCell. Should return false if cell doesnt exist", () => {
 
 test("Tested method: hasCell. Should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
-  return equals(false, grid.hasCell(-1, -1));
+  try {
+    grid.hasCell(-1, -1);
+  } catch (error) {
+    return true;
+  }
+  return false;
 });
 
 test("Tested method: constructor. An error should be thrown if provided row or column is not positive", () => {

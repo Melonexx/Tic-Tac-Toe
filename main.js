@@ -96,9 +96,13 @@ class Grid {
   }
 
   /**
-   * this method returns the value of a cell based on provided row and column location. it throws an error when the cell doesnt exist.
+   * this method returns the value of a cell based on provided row and column location. it throws an error when the cell doesnt exist or if provided location is negative.
    */
   getValue(rowIndex, columnIndex) {
+    if (rowIndex < 0 || columnIndex < 0)
+      throw new Error(
+        `provided coordinates: [${rowIndex}, ${columnIndex}] have to be neutral or positive.`
+      );
     if (!this.hasCell(rowIndex, columnIndex))
       throw new Error(
         `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
@@ -108,9 +112,13 @@ class Grid {
   }
 
   /**
-   * this method returns a boolean. true if a cell at provided location exists, else false.it throws an error, if cell doesnt exist.
+   * this method returns a boolean. true if a cell at provided location exists, else false.it throws an error, if cell doesnt exist or if provided location is negative.
    */
   hasValue(rowIndex, columnIndex) {
+    if (rowIndex < 0 || columnIndex < 0)
+      throw new Error(
+        `provided coordinates: [${rowIndex}, ${columnIndex}] have to be neutral or positive.`
+      );
     if (!this.hasCell(rowIndex, columnIndex))
       throw new Error(
         `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
@@ -120,9 +128,13 @@ class Grid {
   }
 
   /**
-   * this method sets value of cell at provided location.
+   * this method sets value of cell at provided location. throws an error if row index or column index is negative.
    */
   setValue(rowIndex, columnIndex, value) {
+    if (rowIndex < 0 || columnIndex < 0)
+      throw new Error(
+        `provided coordinates: [${rowIndex}, ${columnIndex}] have to be neutral or positive.`
+      );
     if (!this.hasCell(rowIndex, columnIndex))
       throw new Error(
         `no cell at provided coordinates: [${rowIndex}, ${columnIndex}]`
@@ -132,9 +144,13 @@ class Grid {
   }
 
   /**
-   * this method returns true if a cell exists, else false.
+   * this method returns true if a cell exists, else false. throws an error if row index or column index is negative.
    */
   hasCell(rowIndex, columnIndex) {
+    if (rowIndex < 0 || columnIndex < 0)
+      throw new Error(
+        `provided coordinates: [${rowIndex}, ${columnIndex}] have to be neutral or positive.`
+      );
     if (this.rows.length > rowIndex && rowIndex >= 0) {
       const row = this.rows[rowIndex];
       return row.hasCell(columnIndex);
@@ -244,10 +260,13 @@ class TicTacToe {
   }
 
   /**
-   * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value. evaluates the new state.
+   * this method places the symbol of the current player at provided location. throws an error if cell doesnt exist or already has a value or when the game is finished . evaluates the new state.
    */
   placeSymbol(rowIndex, columnIndex) {
     // TODO if finished, throw error
+    if (this.finished) {
+      throw new Error(`game is already finished`);
+    }
 
     if (this.grid.hasValue(rowIndex, columnIndex)) {
       throw new Error(
@@ -417,13 +436,13 @@ test("Tested method: hasCell. Should return false if provided column index is ne
 
 // Grid tests
 
-test("should return value at provided location", () => {
+test("Tested method: setValue. Should return value at provided location", () => {
   const grid = new Grid(3, 4);
   grid.setValue(1, 2, 66);
   return equals(66, grid.getValue(1, 2));
 });
 
-test("an error should be thrown if cell doesnt exist", () => {
+test("Tested method: getValue. An error should be thrown if cell doesnt exist", () => {
   const grid = new Grid(3, 4);
   try {
     grid.getValue(-1, -1);
@@ -433,27 +452,27 @@ test("an error should be thrown if cell doesnt exist", () => {
   return false;
 });
 
-test("should return true if cell exists", () => {
+test("Tested method: hasCell. Should return true if cell exists", () => {
   const grid = new Grid(2, 3);
   return equals(true, grid.hasCell(1, 2));
 });
 
-test("should return true if cell exists", () => {
+test("Tested method: hasCell. Should return true if cell exists", () => {
   const grid = new Grid(2, 3);
   return equals(true, grid.hasCell(0, 0));
 });
 
-test("should return false if cell doesnt exist", () => {
+test("Tested method: hasCell. Should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
   return equals(false, grid.hasCell(4, 5));
 });
 
-test("should return false if cell doesnt exist", () => {
+test("Tested method: hasCell. Should return false if cell doesnt exist", () => {
   const grid = new Grid(4, 5);
   return equals(false, grid.hasCell(-1, -1));
 });
 
-test("an error should be thrown if provided row or column is not positive", () => {
+test("Tested method: constructor. An error should be thrown if provided row or column is not positive", () => {
   try {
     new Grid(-2, 5);
   } catch (error) {
@@ -461,7 +480,7 @@ test("an error should be thrown if provided row or column is not positive", () =
   }
   return false;
 });
-test("an error should be thrown if provided row or column is not positive", () => {
+test("Tested method: constructor. An error should be thrown if provided row or column is not positive", () => {
   try {
     new Grid(0, 0);
   } catch (error) {
@@ -470,7 +489,7 @@ test("an error should be thrown if provided row or column is not positive", () =
   return false;
 });
 
-test("should return a grid with provided row and column", () => {
+test("Tested method: constructor. Should return a grid with provided row and column", () => {
   const grid = new Grid(3, 3);
   if (grid.rows.length !== 3) {
     return false;
@@ -483,9 +502,86 @@ test("should return a grid with provided row and column", () => {
   return true;
 });
 
-test("an error should be thrown if column index or row index is negative", () => {});
+test("Tested method: hasValue. An error should be thrown if column index or row index is negative", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.hasValue(-1, 0);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
 
-test("an error should not be thrown if column index and row index is positive and cell exists", () => {});
+test("Tested method: hasValue. An error should not be thrown if column index and row index is positive and cell exists", () => {
+  const grid = new Grid(3, 3);
+  grid.setValue(1, 0, 3);
+  try {
+    grid.hasValue(1, 0);
+  } catch (error) {
+    return false;
+  }
+  return true;
+});
+
+test("Tested method: getValue. An error should be thrown if column index or row index is negative", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.getValue(-1, 0);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+
+test("Tested method: getValue. An error should not be thrown if column index and row index is positive and cell exists", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.getValue(1, 0);
+  } catch (error) {
+    return false;
+  }
+  return true;
+});
+
+test("Tested method: setValue. An error should be thrown if column index or row index is negative", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.setValue(-1, 0, 3);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+
+test("Tested method: setValue. An error should not be thrown if column index and row index is positive and cell exists", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.setValue(1, 0, 3);
+  } catch (error) {
+    return false;
+  }
+  return true;
+});
+
+test("Tested method: hasCell. An error should be thrown if column index or row index is negative", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.hasCell(-1, 0);
+  } catch (error) {
+    return true;
+  }
+  return false;
+});
+
+test("Tested method: hasCell. An error should not be thrown if column index and row index is positive and cell exists", () => {
+  const grid = new Grid(3, 3);
+  try {
+    grid.hasCell(1, 0);
+  } catch (error) {
+    return false;
+  }
+  return true;
+});
 
 //TicTacToe tests
 
@@ -558,6 +654,19 @@ test("winner and loser shouldnt be set if game is not finished", () => {
   ttt.placeSymbol(0, 2);
   ttt.placeSymbol(1, 1);
   return equals(ttt.winner, undefined) && equals(ttt.loser, undefined);
+});
+
+test("an error should be thrown if symbol is placed while game is already finished", () => {
+  const playerOne = new Player("Eileen");
+  const playerTwo = new Player("Robsi");
+  const ttt = new TicTacToe(playerOne, playerTwo);
+  ttt.finished = true;
+  try {
+    ttt.placeSymbol(1, 2);
+  } catch (error) {
+    return true;
+  }
+  return false;
 });
 
 // test("kindersicherung 1", () => { throw "hupsi" })

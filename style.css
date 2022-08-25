@@ -68,3 +68,8 @@ main {
   width: 3rem;
   height: 3rem;
 }
+
+#actions > button {
+  width: 12rem;
+  height: 1.5rem;
+}

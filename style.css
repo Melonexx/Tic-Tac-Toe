@@ -53,6 +53,16 @@ main {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+#grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+#grid > button {
+  width: 5rem;
+  height: 5rem;
+}
+
 #colourOne > button,
 #colourTwo > button {
   width: 3rem;

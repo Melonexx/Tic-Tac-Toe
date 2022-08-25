@@ -283,6 +283,32 @@ class TicTacToe {
 
 // controller
 
+/** this function updates whole view depending on provided ttt object. */
+function updateView(tttObject) {
+  //highlight current player
+
+  //grid
+
+  //result
+  const result = document.querySelector("#result");
+
+  if (tttObject.finished) {
+    result.innerHTML =
+      tttObject.winner != null ? tttObject.winner.name : "draw";
+  } else {
+    result.innerHTML = "";
+  }
+}
+
+// listener
+const starti = document.querySelector("#starti");
+let currentGame;
+
+starti.addEventListener("click", () =>
+  //new players name insertion
+  updateView((currentGame = new TicTacToe(new Player(""), new Player(""))))
+);
+
 // util
 
 /** returns true if a and b reference the same object (objects) or are equal (primitives), else false*/

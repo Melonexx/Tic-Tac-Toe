@@ -11,17 +11,50 @@ body {
   height: 100%;
 }
 
-header {
-  display: flex;
-  flex-direction: column;
+body {
+  /** variables */
+  --spacing--m: 1rem;
+}
+
+/** utility */
+
+.items-center {
   align-items: center;
 }
 
-body {
+.flex {
   display: flex;
+}
+
+.flex-column {
   flex-direction: column;
 }
 
-.container {
-  display: flex;
+.gap-m {
+  gap: var(--spacing--m);
+}
+
+.grid {
+  display: grid;
+}
+
+.padding-m {
+  padding: var(--spacing--m);
+}
+
+/** custom */
+
+main {
+  flex: 1 0 300px;
+}
+
+#colourOne,
+#colourTwo {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#colourOne > button,
+#colourTwo > button {
+  width: 3rem;
+  height: 3rem;
 }

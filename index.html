@@ -8,21 +8,41 @@
     <link rel="stylesheet" href="style.css" />
     <script defer src="main.js"></script>
   </head>
-  <body>
-    <header><h1>Tic Tac Toe</h1></header>
-    <div class="container">
-      <aside>
-        <section id="playerOne"></section>
-        <section id="colourOne"></section>
+  <body class="flex flex-column padding-m">
+    <header class="flex flex-column items-center"><h1>Tic Tac Toe</h1></header>
+    <div class="flex">
+      <aside class="flex flex-column gap-m">
+        <section id="playerOne" class="flex flex-column gap-m">
+          Player 1
+          <input type="text" placeholder="name" />
+        </section>
+        <section id="colourOne" class="gap-m grid">
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </section>
       </aside>
       <main>
         <section id="grid"></section>
         <section id="result"></section>
         <section id="actions"></section>
       </main>
-      <aside>
-        <section id="playerTwo"></section>
-        <section id="colourTwo"></section>
+      <aside class="flex flex-column gap-m">
+        <section id="playerTwo" class="flex flex-column gap-m">
+          Player 2
+          <input type="text" placeholder="name" />
+        </section>
+        <section id="colourTwo" class="gap-m grid">
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </section>
       </aside>
     </div>
   </body>

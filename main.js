@@ -309,6 +309,17 @@ starti.addEventListener("click", () =>
   updateView((currentGame = new TicTacToe(new Player(""), new Player(""))))
 );
 
+const tttButtons = document.querySelectorAll("#grid > button");
+
+for (let i = 0; i < tttButtons.length; i++) {
+  const currentButton = tttButtons[i];
+  currentButton.addEventListener("click", () => {
+    const currentCoordinates = currentButton.id.split("_").map(Number);
+    currentGame.placeSymbol(currentCoordinates[0], currentCoordinates[1]);
+    updateView(currentGame);
+  });
+}
+
 // util
 
 /** returns true if a and b reference the same object (objects) or are equal (primitives), else false*/

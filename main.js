@@ -288,13 +288,30 @@ function updateView(tttObject) {
   //highlight current player
 
   //grid
+  for (let row = 0; row < tttObject.grid.rows.length; row++) {
+    for (
+      let column = 0;
+      column < tttObject.grid.rows[row].values.length;
+      column++
+    ) {
+      const currentButton = document.querySelector(`#cell_${row}_${column}`);
+      const currentValue = tttObject.grid.getValue(row, column);
+      if (currentValue === tttObject.playerOne) {
+        currentButton.innerHTML = "x";
+        currentButton.disabled = true;
+      } else if (currentValue === tttObject.playerTwo) {
+        currentButton.innerHTML = "O";
+        currentButton.disabled = true;
+      } else currentButton.innerHTML = "";
+    }
+  }
 
   //result
   const result = document.querySelector("#result");
 
   if (tttObject.finished) {
     result.innerHTML =
-      tttObject.winner != null ? tttObject.winner.name : "draw";
+      tttObject.winner != null ? `${tttObject.winner.name} has won` : "draw";
   } else {
     result.innerHTML = "";
   }
@@ -303,19 +320,27 @@ function updateView(tttObject) {
 // listener
 const starti = document.querySelector("#starti");
 let currentGame;
-
-starti.addEventListener("click", () =>
-  //new players name insertion
-  updateView((currentGame = new TicTacToe(new Player(""), new Player(""))))
-);
-
 const tttButtons = document.querySelectorAll("#grid > button");
+
+starti.addEventListener("click", () => {
+  for (const currentButton of tttButtons) {
+    currentButton.disabled = false;
+  }
+
+  //new players name insertion
+  updateView(
+    (currentGame = new TicTacToe(
+      new Player("Player One"),
+      new Player("Player Two")
+    ))
+  );
+});
 
 for (let i = 0; i < tttButtons.length; i++) {
   const currentButton = tttButtons[i];
   currentButton.addEventListener("click", () => {
     const currentCoordinates = currentButton.id.split("_").map(Number);
-    currentGame.placeSymbol(currentCoordinates[0], currentCoordinates[1]);
+    currentGame.placeSymbol(currentCoordinates[1], currentCoordinates[2]);
     updateView(currentGame);
   });
 }

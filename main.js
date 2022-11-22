@@ -320,8 +320,13 @@ function updateView(tttObject) {
   const result = document.querySelector("#result");
 
   if (tttObject.finished) {
-    result.innerHTML =
-      tttObject.winner != null ? `${tttObject.winner.name} has won` : "draw";
+    const name =
+      tttObject.winner.name === "" || tttObject.winner.name == null
+        ? tttObject.playerOne === tttObject.winner
+          ? "Player One"
+          : "Player Two"
+        : tttObject.winner.name;
+    result.innerHTML = tttObject.winner != null ? `${name} has won` : "draw";
   } else {
     result.innerHTML = "";
   }
@@ -331,6 +336,19 @@ function updateView(tttObject) {
 const starti = document.querySelector("#starti");
 let currentGame;
 const tttButtons = document.querySelectorAll("#grid > button");
+const inputPlayerOne = document.querySelector("#playerOne > input");
+const inputPlayerTwo = document.querySelector("#playerTwo > input");
+
+inputPlayerOne.addEventListener("input", (event) => {
+  if (currentGame != null) {
+    currentGame.playerOne.name = event.target.value;
+  }
+});
+inputPlayerTwo.addEventListener("input", (event) => {
+  if (currentGame != null) {
+    currentGame.playerTwo.name = event.target.value;
+  }
+});
 
 starti.addEventListener("click", () => {
   for (const currentButton of tttButtons) {
@@ -340,8 +358,8 @@ starti.addEventListener("click", () => {
   //new players name insertion
   updateView(
     (currentGame = new TicTacToe(
-      new Player("Player One"),
-      new Player("Player Two")
+      new Player(inputPlayerOne.value),
+      new Player(inputPlayerTwo.value)
     ))
   );
 });

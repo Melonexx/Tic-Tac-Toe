@@ -287,6 +287,16 @@ class TicTacToe {
 function updateView(tttObject) {
   //highlight current player
 
+  const playerOneElement = document.querySelector("#playerOne");
+  const playerTwoElement = document.querySelector("#playerTwo");
+  if (tttObject.currentPlayer === tttObject.playerOne) {
+    playerOneElement.classList.add("current-player");
+    playerTwoElement.classList.remove("current-player");
+  } else {
+    playerOneElement.classList.remove("current-player");
+    playerTwoElement.classList.add("current-player");
+  }
+
   //grid
   for (let row = 0; row < tttObject.grid.rows.length; row++) {
     for (

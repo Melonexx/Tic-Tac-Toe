@@ -10,10 +10,19 @@ class Player {
    * this attribute represents the name of the player.
    */
   name;
-  constructor(name) {
+  /**
+   * this attribute represents the colour of the player.
+   */
+  colour;
+
+  /**
+   * this constructor creates a new player with the attributes name and colour. if no colour provided, colour is black.
+   */
+  constructor(name, colour) {
     if (typeof name !== "string")
       throw new Error(`name has to be of type string, provided: ${name}`);
     this.name = name;
+    this.colour = colour ?? "black";
   }
 }
 
@@ -309,9 +318,11 @@ function updateView(tttObject) {
       if (currentValue === tttObject.playerOne) {
         currentButton.innerHTML = "x";
         currentButton.disabled = true;
+        currentButton.style.color = tttObject.playerOne.colour;
       } else if (currentValue === tttObject.playerTwo) {
         currentButton.innerHTML = "O";
         currentButton.disabled = true;
+        currentButton.style.color = tttObject.playerTwo.colour;
       } else currentButton.innerHTML = "";
     }
   }
@@ -338,6 +349,8 @@ let currentGame;
 const tttButtons = document.querySelectorAll("#grid > button");
 const inputPlayerOne = document.querySelector("#playerOne > input");
 const inputPlayerTwo = document.querySelector("#playerTwo > input");
+const colourButtonsPlayerOne = document.querySelectorAll("#colourOne > button");
+const colourButtonsPlayerTwo = document.querySelectorAll("#colourTwo > button");
 
 inputPlayerOne.addEventListener("input", (event) => {
   if (currentGame != null) {
@@ -369,6 +382,28 @@ for (let i = 0; i < tttButtons.length; i++) {
   currentButton.addEventListener("click", () => {
     const currentCoordinates = currentButton.id.split("_").map(Number);
     currentGame.placeSymbol(currentCoordinates[1], currentCoordinates[2]);
+    updateView(currentGame);
+  });
+}
+
+for (const currentButton of colourButtonsPlayerOne) {
+  currentButton.addEventListener("click", () => {
+    for (const currentButton of colourButtonsPlayerOne) {
+      currentButton.style.border = "none";
+    }
+    currentGame.playerOne.colour = currentButton.style.backgroundColor;
+    currentButton.style.border = "1px solid black";
+    updateView(currentGame);
+  });
+}
+
+for (const currentButton of colourButtonsPlayerTwo) {
+  currentButton.addEventListener("click", () => {
+    for (const currentButton of colourButtonsPlayerTwo) {
+      currentButton.style.border = "none";
+    }
+    currentGame.playerTwo.colour = currentButton.style.backgroundColor;
+    currentButton.style.border = "1px solid black";
     updateView(currentGame);
   });
 }

@@ -22,7 +22,7 @@ class Player {
     if (typeof name !== "string")
       throw new Error(`name has to be of type string, provided: ${name}`);
     this.name = name;
-    this.colour = colour ?? "black";
+    this.colour = colour;
   }
 }
 
@@ -296,14 +296,14 @@ class TicTacToe {
 function updateView(tttObject) {
   //highlight current player
 
-  const playerOneElement = document.querySelector("#playerOne");
-  const playerTwoElement = document.querySelector("#playerTwo");
+  const playerOneElement = document.querySelector("#playerOne > input");
+  const playerTwoElement = document.querySelector("#playerTwo > input");
   if (tttObject.currentPlayer === tttObject.playerOne) {
-    playerOneElement.classList.add("current-player");
-    playerTwoElement.classList.remove("current-player");
+    playerOneElement.style.backgroundColor = tttObject.playerOne.colour;
+    playerTwoElement.style.backgroundColor = "";
   } else {
-    playerOneElement.classList.remove("current-player");
-    playerTwoElement.classList.add("current-player");
+    playerOneElement.style.backgroundColor = "";
+    playerTwoElement.style.backgroundColor = tttObject.playerTwo.colour;
   }
 
   //grid
@@ -332,20 +332,39 @@ function updateView(tttObject) {
 
   if (tttObject.finished) {
     const name =
-      tttObject.winner.name === "" || tttObject.winner.name == null
+      tttObject.winner?.name === "" || tttObject.winner?.name == null
         ? tttObject.playerOne === tttObject.winner
           ? "Player One"
           : "Player Two"
         : tttObject.winner.name;
     result.innerHTML = tttObject.winner != null ? `${name} has won` : "draw";
+    if (tttObject.winner == null) {
+      playerTwoElement.style.backgroundColor = "";
+      playerOneElement.style.backgroundColor = "";
+    }
   } else {
     result.innerHTML = "";
   }
 }
 
+const startNewGame = () => {
+  for (const currentButton of tttButtons) {
+    currentButton.disabled = false;
+  }
+
+  //new players name insertion
+  updateView(
+    (currentGame = new TicTacToe(
+      currentGame?.playerOne ?? new Player(inputPlayerOne.value),
+      currentGame?.playerTwo ?? new Player(inputPlayerTwo.value)
+    ))
+  );
+};
+
 // listener
-const starti = document.querySelector("#starti");
 let currentGame;
+
+const starti = document.querySelector("#starti");
 const tttButtons = document.querySelectorAll("#grid > button");
 const inputPlayerOne = document.querySelector("#playerOne > input");
 const inputPlayerTwo = document.querySelector("#playerTwo > input");
@@ -363,19 +382,7 @@ inputPlayerTwo.addEventListener("input", (event) => {
   }
 });
 
-starti.addEventListener("click", () => {
-  for (const currentButton of tttButtons) {
-    currentButton.disabled = false;
-  }
-
-  //new players name insertion
-  updateView(
-    (currentGame = new TicTacToe(
-      new Player(inputPlayerOne.value),
-      new Player(inputPlayerTwo.value)
-    ))
-  );
-});
+starti.addEventListener("click", startNewGame);
 
 for (let i = 0; i < tttButtons.length; i++) {
   const currentButton = tttButtons[i];
@@ -407,6 +414,8 @@ for (const currentButton of colourButtonsPlayerTwo) {
     updateView(currentGame);
   });
 }
+
+startNewGame();
 
 // util
 

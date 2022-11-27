@@ -316,7 +316,7 @@ function updateView(tttObject) {
       const currentButton = document.querySelector(`#cell_${row}_${column}`);
       const currentValue = tttObject.grid.getValue(row, column);
       if (currentValue === tttObject.playerOne) {
-        currentButton.innerHTML = "x";
+        currentButton.innerHTML = "X";
         currentButton.disabled = true;
         currentButton.style.color = tttObject.playerOne.colour;
       } else if (currentValue === tttObject.playerTwo) {
@@ -334,10 +334,10 @@ function updateView(tttObject) {
     const name =
       tttObject.winner?.name === "" || tttObject.winner?.name == null
         ? tttObject.playerOne === tttObject.winner
-          ? "Player One"
-          : "Player Two"
+          ? "PLAYER ONE"
+          : "PLAYER TWO"
         : tttObject.winner.name;
-    result.innerHTML = tttObject.winner != null ? `${name} has won` : "draw";
+    result.innerHTML = tttObject.winner != null ? `${name} HAS WON` : "DRAW";
     if (tttObject.winner == null) {
       playerTwoElement.style.backgroundColor = "";
       playerOneElement.style.backgroundColor = "";

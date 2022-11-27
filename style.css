@@ -59,17 +59,62 @@ main {
 }
 
 #grid > button {
-  width: 5rem;
-  height: 5rem;
+  width: 8rem;
+  height: 8rem;
+  border: 0.1rem solid lightgrey ;
+  border-radius: .5rem;
+  font-size: 3.5rem ;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 #colourOne > button,
 #colourTwo > button {
-  width: 3rem;
-  height: 3rem;
+  width: 6rem;
+  height: 6rem;
+  border: 0.1rem solid darkgrey;
+  border-radius: 0.5rem;
 }
 
 #actions > button {
   width: 12rem;
-  height: 1.5rem;
+  height: 3rem;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+}
+ 
+input{
+  text-align: center;
+  height: 3rem;
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+}
+
+#playerOne{
+ margin: 2rem 2rem 0 4rem;
+}
+
+#playerTwo{
+  margin: 2rem 4rem 0 2rem;
+}
+
+#colourOne{
+  margin: 4rem 2rem 0 4rem ;
+}
+
+#colourTwo{
+  margin: 4rem 4rem 0 2rem ;
+}
+
+h1{
+  font-size: 3rem;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+#result{
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
 }

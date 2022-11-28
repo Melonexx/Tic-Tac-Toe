@@ -45,6 +45,7 @@ body {
 }
 
 /** custom */
+
 #content {
   gap: 10rem;
 }
@@ -56,6 +57,7 @@ main {
 #colourOne,
 #colourTwo {
   grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
 }
 
 #grid {
@@ -66,7 +68,7 @@ main {
 #grid > button {
   width: 8rem;
   height: 8rem;
-  border: 0.1rem solid lightgrey;
+  border: 1px solid lightgrey;
   border-radius: 0.5rem;
   font-size: 3.5rem;
   text-align: center;
@@ -76,7 +78,7 @@ main {
 #colourTwo > button {
   width: 6rem;
   height: 6rem;
-  border: 0.1rem solid darkgrey;
+  border: 1px solid darkgrey;
   border-radius: 0.5rem;
 }
 
@@ -101,4 +103,41 @@ h1 {
 #result {
   font-size: 1rem;
   font-weight: 700;
+}
+
+@media (max-width: 1420px) {
+  #content {
+    gap: 3rem;
+  }
+
+  #playerOneAside {
+    grid-area: playerOne;
+  }
+
+  #playerTwoAside {
+    grid-area: playerTwo;
+  }
+
+  #grid {
+    grid-area: board;
+  }
+
+  #grid > button {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  #colourOne > button,
+  #colourTwo > button {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media (max-width: 960px) {
+  #content {
+    display: grid;
+    grid-template-areas: "board" "playerOne" "playerTwo";
+    gap: 3rem;
+  }
 }

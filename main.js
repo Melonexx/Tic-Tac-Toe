@@ -396,10 +396,10 @@ for (let i = 0; i < tttButtons.length; i++) {
 for (const currentButton of colourButtonsPlayerOne) {
   currentButton.addEventListener("click", () => {
     for (const currentButton of colourButtonsPlayerOne) {
-      currentButton.style.border = "none";
+      currentButton.style.border = "1px solid darkgrey";
     }
     currentGame.playerOne.colour = currentButton.style.backgroundColor;
-    currentButton.style.border = "1px solid black";
+    currentButton.style.border = "3px solid black";
     updateView(currentGame);
   });
 }
